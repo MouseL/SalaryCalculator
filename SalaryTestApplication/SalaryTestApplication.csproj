@@ -50,6 +50,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SalaryCaculationEngine\SalaryCaculationEngine.csproj">
+      <Project>{1f7826a0-3abc-448c-a054-3402c16d8eb3}</Project>
+      <Name>SalaryCaculationEngine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SalaryCaculator\SalaryCalculationService.csproj">
       <Project>{a8decae6-4c94-4a2c-8556-f2d3e77a599e}</Project>
       <Name>SalaryCalculationService</Name>

@@ -53,29 +53,29 @@ namespace SalaryCalculator.Engine
             _baseFinderList.Add("OTWeekendRate", new ItemBaseFinder(OTRate));
             _baseFinderList.Add("OTHolidayRate", new ItemBaseFinder(OTRate));
 
-            _baseFinderList.Add("ComunicationAllowanceBase", new ItemBaseFinder(ComunicationAllowanceBase));
+            _baseFinderList.Add("CommunicationAllowanceBase", new ItemBaseFinder(CommunicationAllowanceBase));
 
             _baseFinderList.Add("FoodAllowanceBase", new ItemBaseFinder(FoodAllowanceBase));
 
 
         }
 
-        static Hashtable LevelSalaryBaseTable = InitLevelSalaryBaseTable();
+        static List<SingleKeyEntry> LevelSalaryBaseTable = InitLevelSalaryBaseTable();
 
-        static Hashtable InitLevelSalaryBaseTable()
+        static List<SingleKeyEntry> InitLevelSalaryBaseTable()
         {
-            Hashtable baseTable = new Hashtable();
-            baseTable.Add("Intern", 1500.0);
-            baseTable.Add("1st", 1700.0);
-            baseTable.Add("2nd", 2100.0);
-            baseTable.Add("3rd", 2500.0);
-            baseTable.Add("4th", 3000.0);
-            baseTable.Add("5th", 3600.0);
-            baseTable.Add("6th", 4300.0);
-            baseTable.Add("7th", 5200.0);
-            baseTable.Add("8thf", 6200.0);
-            baseTable.Add("Profession", 10000.0);
-            baseTable.Add("Director", 10200.0);
+            List<SingleKeyEntry> baseTable = new List<SingleKeyEntry>();
+            baseTable.Add(new SingleKeyEntry("Intern", 1500.0));
+            baseTable.Add(new SingleKeyEntry("1st", 1700.0));
+            baseTable.Add(new SingleKeyEntry("2nd", 2100.0));
+            baseTable.Add(new SingleKeyEntry("3rd", 2500.0));
+            baseTable.Add(new SingleKeyEntry("4th", 3000.0));
+            baseTable.Add(new SingleKeyEntry("5th", 3600.0));
+            baseTable.Add(new SingleKeyEntry("6th", 4300.0));
+            baseTable.Add(new SingleKeyEntry("7th", 5200.0));
+            baseTable.Add(new SingleKeyEntry("8thf", 6200.0));
+            baseTable.Add(new SingleKeyEntry("Profession", 10000.0));
+            baseTable.Add(new SingleKeyEntry("Director", 10200.0));
             // 实习生（1500）、一级（1700）、二级（2100）、三级（2500）、四级（3000）、五级（3600）、六级（4300）、七级（5200）、八级（6200）、专家（10000）、主任（10200）
             return baseTable;
         }
@@ -84,22 +84,19 @@ namespace SalaryCalculator.Engine
         {
             string paramKey = "Level";
             string level = (string)inputParams[paramKey];
-            if (level != null)
-            {
-                return (double)LevelSalaryBaseTable[level];
-            }
-            return 0.0;
+
+            return FindValueInTable(LevelSalaryBaseTable, level);            
         }
 
-        static Hashtable PerformanceSalaryBaseTable = InitPerformanceSalaryBaseTable();
+        static List<SingleKeyEntry> PerformanceSalaryBaseTable = InitPerformanceSalaryBaseTable();
 
-        static Hashtable InitPerformanceSalaryBaseTable()
+        static List<SingleKeyEntry> InitPerformanceSalaryBaseTable()
         {
-            Hashtable baseTable = new Hashtable();
-            baseTable.Add("Chairman", 900.0);
-            baseTable.Add("Director", 700.0);
-            baseTable.Add("Inspector", 500.0);
-            baseTable.Add("Other", 300.0);
+            List<SingleKeyEntry> baseTable = new List<SingleKeyEntry>();
+            baseTable.Add(new SingleKeyEntry("Chairman", 900.0));
+            baseTable.Add(new SingleKeyEntry("Director", 700.0));
+            baseTable.Add(new SingleKeyEntry("Inspector", 500.0));
+            baseTable.Add(new SingleKeyEntry("Other", 300.0));
             //  Post:项目部主任 900,    总监总监(主管）700      监理师（专责）500， 员级（试用期）300
             return baseTable;
         }
@@ -107,21 +104,17 @@ namespace SalaryCalculator.Engine
         double PerformanceSalaryBase(string itemID, Hashtable inputParams)
         {
             string Post = (string)inputParams["Post"];
-            if (Post != null)
-            {
-                if (PerformanceSalaryBaseTable.ContainsKey(Post))
-                    return (double)PerformanceSalaryBaseTable[Post];
-            }
-            return 0.0;
+
+            return FindValueInTable(PerformanceSalaryBaseTable, Post);
         }
 
-        static Hashtable FoodAllowanceBaseTable = InitFoodAllowanceBaseTable();
+        static List<SingleKeyEntry> FoodAllowanceBaseTable = InitFoodAllowanceBaseTable();
 
-        static Hashtable InitFoodAllowanceBaseTable()
+        static List<SingleKeyEntry> InitFoodAllowanceBaseTable()
         {
-            Hashtable baseTable = new Hashtable();
-            baseTable.Add("Contractor", 750.0);
-            baseTable.Add("Other", 500.0);
+            List<SingleKeyEntry> baseTable = new List<SingleKeyEntry>();
+            baseTable.Add(new Engine.SingleKeyEntry("Contractor", 750.0));
+            baseTable.Add(new Engine.SingleKeyEntry("Other", 500.0));
             //  PeopleType:合同工每月伙食费为750，劳务派遣及协议的行政人员每月为500
             return baseTable;
         }
@@ -129,38 +122,29 @@ namespace SalaryCalculator.Engine
         double FoodAllowanceBase(string itemID, Hashtable inputParams)
         {
             string PeopleType = (string)inputParams["PeopleType"];
-            if (PeopleType != null)
-            {
-                if (FoodAllowanceBaseTable.ContainsKey(PeopleType))
-                    return (double)FoodAllowanceBaseTable[PeopleType];
-            }
-            return 0.0;
+            return FindValueInTable(FoodAllowanceBaseTable, PeopleType);
         }
 
 
-        static Hashtable ComunicationAllowanceBaseTable = InitComunicationAllowanceBaseTable();
+        static List<SingleKeyEntry> CommunicationAllowanceBaseTable = InitCommunicationAllowanceBaseTable();
 
-        static Hashtable InitComunicationAllowanceBaseTable()
+        static List<SingleKeyEntry> InitCommunicationAllowanceBaseTable()
         {
-            Hashtable baseTable = new Hashtable();
-            baseTable.Add("Director", 300.0);
-            baseTable.Add("DirectorDeputy", 200.0);
-            baseTable.Add("Other", 60.0);
+            List<SingleKeyEntry> baseTable = new List<SingleKeyEntry>();
+            baseTable.Add(new SingleKeyEntry("Director", 300.0));
+            baseTable.Add(new SingleKeyEntry("DirectorDeputy", 200.0));
+            baseTable.Add(new Engine.SingleKeyEntry("Other", 60.0));
             //  Post:岗位	总监	总代	总代以下
             //       金额   300      200        60
 
             return baseTable;
         }
 
-        double ComunicationAllowanceBase(string itemID, Hashtable inputParams)
+        double CommunicationAllowanceBase(string itemID, Hashtable inputParams)
         {
             string Post = (string)inputParams["Post"];
-            if (Post != null)
-            {
-                if (ComunicationAllowanceBaseTable.ContainsKey(Post))
-                    return (double)ComunicationAllowanceBaseTable[Post];
-            }
-            return 0.0;
+
+            return FindValueInTable(CommunicationAllowanceBaseTable, Post);
         }
 
         //注册津贴  RegistrationType, Post, EmploymentType
@@ -171,19 +155,19 @@ namespace SalaryCalculator.Engine
            （四）公司全职人员按100%津贴计算，挂证人员按50%津贴计算。     有问题
          */
 
-        static Hashtable RegistrationAllowanceBaseTable = InitRegistrationAllowanceBaseTable();
+        static List<SingleKeyEntry> RegistrationAllowanceBaseTable = InitRegistrationAllowanceBaseTable();
 
-        static Hashtable InitRegistrationAllowanceBaseTable()
+        static List<SingleKeyEntry> InitRegistrationAllowanceBaseTable()
         {
-            Hashtable baseTable = new Hashtable();
-            baseTable.Add("注册咨询师", 2000.0);
-            baseTable.Add("注册安全师", 2000.0);
-            baseTable.Add("注册设备监理师", 2000.0);
-            baseTable.Add("一级建造师", 2000.0);
-            baseTable.Add("注册造价师", 4000.0);
-            baseTable.Add("注册监理工程师", 5000.0);
+            List<SingleKeyEntry> baseTable = new List<SingleKeyEntry>();
+            baseTable.Add(new Engine.SingleKeyEntry("注册咨询师", 2000.0));
+            baseTable.Add(new Engine.SingleKeyEntry("注册安全师", 2000.0));
+            baseTable.Add(new Engine.SingleKeyEntry("注册设备监理师", 2000.0));
+            baseTable.Add(new Engine.SingleKeyEntry("一级建造师", 2000.0));
+            baseTable.Add(new Engine.SingleKeyEntry("注册造价师", 4000.0));
+            baseTable.Add(new Engine.SingleKeyEntry("注册监理工程师", 5000.0));
 
-            baseTable.Add("Other", 1000.0);
+            baseTable.Add(new Engine.SingleKeyEntry("Other", 1000.0));
             //  RegistrationType （一）注册咨询师、注册安全师、注册设备监理师和一级建造师2000元/月；注册造价师4000元/月；注册监理工程师5000元/月；
             return baseTable;
         }
@@ -191,51 +175,42 @@ namespace SalaryCalculator.Engine
         double RegistrationAllowanceBase(string itemID, Hashtable inputParams)
         {
             string RegistrationType = (string)inputParams["RegistrationType"];
-            if (RegistrationType != null)
-            {
-                if (RegistrationAllowanceBaseTable.ContainsKey(RegistrationType))
-                    return (double)RegistrationAllowanceBaseTable[RegistrationType];
-            }
-            return 0.0;
+
+            return FindValueInTable(RegistrationAllowanceBaseTable, RegistrationType);
         }
 
-        static Hashtable OTRateTable = InitOTRateTableTable();
+        static List<SingleKeyEntry> OTRateTable = InitOTRateTableTable();
 
-        static Hashtable InitOTRateTableTable()
+        static List<SingleKeyEntry> InitOTRateTableTable()
         {
-            Hashtable baseTable = new Hashtable();
-            baseTable.Add("OTWeekdayRate", 2.0);
-            baseTable.Add("OTWeekendRate", 2.0);
-            baseTable.Add("OTHolidayRate", 3.0);
+            List<SingleKeyEntry> baseTable = new List<SingleKeyEntry>();
+            baseTable.Add(new Engine.SingleKeyEntry("OTWeekdayRate", 1.0));
+            baseTable.Add(new Engine.SingleKeyEntry("OTWeekendRate", 2.0));
+            baseTable.Add(new Engine.SingleKeyEntry("OTHolidayRate", 3.0));
 
             return baseTable;
         }
 
         double OTRate(string itemID, Hashtable inputParams)
         {
-            if (itemID != null)
-            {
-                if (OTRateTable.ContainsKey(itemID))
-                    return (double)OTRateTable[itemID];
-            }
-            return 0.0;
+            return FindValueInTable(OTRateTable, itemID);
         }
 
 
-        List<JobTitleBaseInfo> JobTitleBaseTable = InitJobTitleBaseTable();
+        List<DoubleKeyEntry> JobTitleBaseTable = InitJobTitleBaseTable();
 
-        static List<JobTitleBaseInfo> InitJobTitleBaseTable()
+        static List<DoubleKeyEntry> InitJobTitleBaseTable()
         {
-            List<JobTitleBaseInfo> titleBaseTable = new List<JobTitleBaseInfo>();
-            titleBaseTable.Add(new JobTitleBaseInfo("Director", "Senior", 4000.0));
-            titleBaseTable.Add(new JobTitleBaseInfo("DirectorDeputy", "Senior", 3000.0));
-            titleBaseTable.Add(new JobTitleBaseInfo("Other", "Senior", 2000.0));
-            titleBaseTable.Add(new JobTitleBaseInfo("Director", "Middle", 3000.0));
-            titleBaseTable.Add(new JobTitleBaseInfo("DirectorDeputy", "Middle", 2000.0));
-            titleBaseTable.Add(new JobTitleBaseInfo("Other", "Middle", 1000.0));
-            titleBaseTable.Add(new JobTitleBaseInfo("Director", "Junior", 1000.0));
-            titleBaseTable.Add(new JobTitleBaseInfo("DirectorDeputy", "Junior", 500.0));
-            titleBaseTable.Add(new JobTitleBaseInfo("Other", "Junior", 300.0));
+            List<DoubleKeyEntry> titleBaseTable = new List<DoubleKeyEntry>();
+            titleBaseTable.Add(new DoubleKeyEntry("Director", "Senior", 4000.0));
+            titleBaseTable.Add(new DoubleKeyEntry("DirectorDeputy", "Senior", 3000.0));
+            titleBaseTable.Add(new DoubleKeyEntry("Other", "Senior", 2000.0));
+            titleBaseTable.Add(new DoubleKeyEntry("Director", "Middle", 3000.0));
+            titleBaseTable.Add(new DoubleKeyEntry("DirectorDeputy", "Middle", 2000.0));
+            titleBaseTable.Add(new DoubleKeyEntry("Other", "Middle", 1000.0));
+            titleBaseTable.Add(new DoubleKeyEntry("Director", "Junior", 1000.0));
+            titleBaseTable.Add(new DoubleKeyEntry("DirectorDeputy", "Junior", 500.0));
+            titleBaseTable.Add(new DoubleKeyEntry("Other", "Junior", 300.0));
             return titleBaseTable;
         }
 
@@ -245,57 +220,176 @@ namespace SalaryCalculator.Engine
             string paramKey2 = "Post";
             string title = (string)inputParams[paramKey1];
             string post = (string)inputParams[paramKey2];
-            foreach (JobTitleBaseInfo baseInfo in JobTitleBaseTable)
-            {
-                if (baseInfo.Post.Equals(post) && baseInfo.Title.Equals(title))
-                    return baseInfo.Base;
-            }
-            return 0.0;
+
+            return FindValueInTable(JobTitleBaseTable, post, title);
         }
 
-        struct JobTitleBaseInfo
-        {
-            public string Post;
-            public string Title;
-            public double Base;
+        static List<SingleKeyEntry> GeneralFactorBaseTable = InitGeneralFactorBaseTable();
 
-            public JobTitleBaseInfo(string post, string title, double salaryBase)
-            {
-                this.Post = post;
-                this.Title = title;
-                this.Base = salaryBase;
-            }
+        static List<SingleKeyEntry> InitGeneralFactorBaseTable()
+        {
+            List<SingleKeyEntry> baseTable = new List<SingleKeyEntry>();
+            baseTable.Add(new Engine.SingleKeyEntry("WorkAgeAllowanceBase", 60.0));
+            baseTable.Add(new Engine.SingleKeyEntry("OnFieldBase", 60.0));
+            baseTable.Add(new Engine.SingleKeyEntry("LiveHomeBase", 60.0));
+            baseTable.Add(new Engine.SingleKeyEntry("SubsidyBase", 44.0));
+            baseTable.Add(new Engine.SingleKeyEntry("CookAllowanceBase", 10.0));
+
+            return baseTable;
         }
 
 
         double WorkAgeAllowanceBase(string itemID, Hashtable inputParams)
         {
-            return 60.0;
+            return FindValueInTable(GeneralFactorBaseTable, "WorkAgeAllowanceBase");
         }
 
         double OnFieldBase(string itemID, Hashtable inputParams)
         {
-            return 60.0;
+            return FindValueInTable(GeneralFactorBaseTable, "OnFieldBase");
         }
 
         double LiveHomeBase(string itemID, Hashtable inputParams)
         {
-            return 60.0;
+            return FindValueInTable(GeneralFactorBaseTable, "LiveHomeBase");
         }
 
         double SubsidyBase(string itemID, Hashtable inputParams)
         {
-            return 44.0;
+            return FindValueInTable(GeneralFactorBaseTable, "SubsidyBase");
         }
 
         double CookAllowanceBase(string itemID, Hashtable inputParams)
         {
-            return 10.0;
+            return FindValueInTable(GeneralFactorBaseTable, "CookAllowanceBase");
         }
 
 
+        double FindValueInTable(List<SingleKeyEntry> table, string key)
+        {
+            if (key != null)
+            {
+                foreach (SingleKeyEntry entry in table)
+                {
+                    if (entry.Key.Equals(key))
+                        return entry.Value;
+                }
+            }
+            return 0.0;
+        }
 
+        double FindValueInTable(List<DoubleKeyEntry> table, string key1, string key2)
+        {
+            foreach (DoubleKeyEntry entry in table)
+            {
+                if (entry.Key1.Equals(key1) && entry.Key2.Equals(key2))
+                    return entry.Value;
+                
+            }
+            return 0.0;
+        }
 
+    }
+
+    [Serializable]
+    public class SingleKeyEntry
+    {
+        string _key;
+        double _value;
+
+        public string Key
+        {
+            get
+            {
+                return _key;
+            }
+
+            set
+            {
+                _key = value;
+            }
+        }
+
+        public double Value
+        {
+            get
+            {
+                return _value;
+            }
+
+            set
+            {
+                _value = value;
+            }
+        }
+
+        public SingleKeyEntry(string key, double value)
+        {
+            _key = key;
+            _value = value;
+        }
+
+        public SingleKeyEntry()
+        {
+        }
+    }
+
+    [Serializable]
+    public class DoubleKeyEntry
+    {
+        string _key1;
+        string _key2;
+        double _value;
+
+        public string Key1
+        {
+            get
+            {
+                return _key1;
+            }
+
+            set
+            {
+                _key1 = value;
+            }
+        }
+
+        public double Value
+        {
+            get
+            {
+                return _value;
+            }
+
+            set
+            {
+                _value = value;
+            }
+        }
+
+        public string Key2
+        {
+            get
+            {
+                return _key2;
+            }
+
+            set
+            {
+                _key2 = value;
+            }
+        }
+
+        public DoubleKeyEntry(string key1, string key2, double value)
+        {
+            _key1 = key1;
+            _key2 = key2;
+            _value = value;
+        }
+
+        public DoubleKeyEntry()
+        {
+        }
     }
 
 }
