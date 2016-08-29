@@ -70,7 +70,7 @@ namespace SalaryCalculator.Engine
 机关人员：周一至周五（200%）；周六、周日（200%）；法定节假日（300%）;
                  现场人员：法定节假日（300%）;   有问题    
               */
-             "ComunicationAllowance", // 通讯费    Post AttendanceDays
+             "CommunicationAllowance", // 通讯费    Post AttendanceDays
              /*  Attendance * base/30  */
              "Backpay", // 补发工资   Backpay
              "Withhold", // 扣款  Withhold
@@ -78,7 +78,7 @@ namespace SalaryCalculator.Engine
              /*  BaseSalary + OnFieldAllowance + WorkAgeAllowance +
 PerformanceSalary + JobTitleAllowance + RegistrationAllowance +
 PartTimeAllowance + LocalAllowance + Reward + OvertimeAllowance
-              *  + ComunicationAllowance + Backpay - Withhold  */
+              *  + CommunicationAllowance + Backpay - Withhold  */
              "FoodAllowance", // 伙食费    PeopleType    有问题
              "TaxBasetotal", // 计税基础
              /* SalaryTotal + FoodAllowance - SocialInsurance  */
@@ -129,7 +129,7 @@ PartTimeAllowance + LocalAllowance + Reward + OvertimeAllowance
 
             _calculatorList.Add("OvertimeAllowance", new PayrollItemCalculator(OvertimeAllowanceCompute));
 
-            _calculatorList.Add("ComunicationAllowance", new PayrollItemCalculator(ComunicationAllowanceCompute));
+            _calculatorList.Add("CommunicationAllowance", new PayrollItemCalculator(CommunicationAllowanceCompute));
 
             _calculatorList.Add("Backpay", new PayrollItemCalculator(BackpayCompute));
             _calculatorList.Add("Withhold", new PayrollItemCalculator(WithholdCompute));
@@ -302,12 +302,12 @@ PartTimeAllowance + LocalAllowance + Reward + OvertimeAllowance
         }
 
 
-        double ComunicationAllowanceCompute(iSalaryBaseDef baseDef, Hashtable inputParams)
+        double CommunicationAllowanceCompute(iSalaryBaseDef baseDef, Hashtable inputParams)
         {
             int AttendanceDays = (int)inputParams["AttendanceDays"];
-            double ComunicationAllowanceBase = baseDef.GetPayrollItemBase("ComunicationAllowanceBase", inputParams);
+            double CommunicationAllowanceBase = baseDef.GetPayrollItemBase("CommunicationAllowanceBase", inputParams);
 
-            return AttendanceDays * ComunicationAllowanceBase / 30.0;
+            return AttendanceDays * CommunicationAllowanceBase / 30.0;
         }
 
         double SalaryTotalCompute(iSalaryBaseDef baseDef, Hashtable inputParams)
@@ -323,7 +323,7 @@ PartTimeAllowance + LocalAllowance + Reward + OvertimeAllowance
             double LocalAllowance = LocalAllowanceCompute(baseDef, inputParams);
             double Reward = RewardCompute(baseDef, inputParams);
             double OvertimeAllowance = OvertimeAllowanceCompute(baseDef, inputParams);
-            double ComunicationAllowance = ComunicationAllowanceCompute(baseDef, inputParams);
+            double CommunicationAllowance = CommunicationAllowanceCompute(baseDef, inputParams);
             double Backpay = BackpayCompute(baseDef, inputParams);
             double Withhold = WithholdCompute(baseDef, inputParams);
 
@@ -332,7 +332,7 @@ PartTimeAllowance + LocalAllowance + Reward + OvertimeAllowance
             return BaseSalary + OnFieldAllowance + WorkAgeAllowance +
                    PerformanceSalary + JobTitleAllowance + RegistrationAllowance +
                    PartTimeAllowance + CookAllowance + LocalAllowance + Reward + OvertimeAllowance +
-                   ComunicationAllowance + Backpay - Withhold;
+                   CommunicationAllowance + Backpay - Withhold;
         }
 
         double FoodAllowanceCompute(iSalaryBaseDef baseDef, Hashtable inputParams)
