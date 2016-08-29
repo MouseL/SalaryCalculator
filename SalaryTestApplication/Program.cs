@@ -9,18 +9,21 @@ using System.Collections;
 
 using SalaryCalculator.Service;
 using SalaryCalculator.Engine;
+
 using System.Xml.Serialization;
+using Newtonsoft.Json;
+using System.Configuration;
 
 namespace SalaryTestApplication
 {
-    [Serializable]
+    
     class Program
     {
         delegate double CalculateItem();
 
         static void Main(string[] args)
         {
-            SalaryTest();
+            //SalaryTest();
 
             SerializationTest();
             Console.In.ReadLine();
@@ -41,9 +44,18 @@ namespace SalaryTestApplication
             serializer.Serialize(sw, myList);
 
             string ss = sw.GetStringBuilder().ToString();
-            Console.Out.WriteLine(ss);
+            //Console.Out.WriteLine(ss);
 
-            List<SingleKeyEntry> newList = (List<SingleKeyEntry>)serializer.Deserialize(new StringReader(ss));
+            string json = JsonConvert.SerializeObject(myList);
+            Console.Out.WriteLine(json);
+
+
+            //List<SingleKeyEntry> newList = (List<SingleKeyEntry>)serializer.Deserialize(new StringReader(ss));
+
+            string newJson = ConfigurationManager.AppSettings["MyInitData"];
+
+            List<SingleKeyEntry> newList = JsonConvert.DeserializeObject<List<SingleKeyEntry>>(newJson);
+
 
             Console.Out.WriteLine("\n---- \n" + newList.Count);
 
